@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "213379821447",
+    "project_id": "baakas-1a4c0",
+    "storage_bucket": "baakas-1a4c0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213379821447:android:1802139f675c39db39ed22",
+        "android_client_info": {
+          "package_name": "com.example.baakas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213379821447-imtgdkneahlvm40hd6tm0e2g9a1f03q7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.baakas",
+            "certificate_hash": "c4a851595ec18b36756513bd731961dd857a4c62"
+          }
+        },
+        {
+          "client_id": "213379821447-k14q87jatfjv6q9kl7mqr13alk6c1nv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpVDwtNBJT3ecdLQqy8YNzhOFXN1HcRFI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213379821447-k14q87jatfjv6q9kl7mqr13alk6c1nv2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "213379821447-im138c7aav5mp3jn65hjicr2dgoaesu3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.baakasAdmin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213379821447:android:337f5d9d6dc3afa639ed22",
+        "android_client_info": {
+          "package_name": "com.example.baakas_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213379821447-k14q87jatfjv6q9kl7mqr13alk6c1nv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpVDwtNBJT3ecdLQqy8YNzhOFXN1HcRFI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213379821447-k14q87jatfjv6q9kl7mqr13alk6c1nv2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "213379821447-im138c7aav5mp3jn65hjicr2dgoaesu3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.baakasAdmin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
