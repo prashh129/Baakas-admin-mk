@@ -40,7 +40,7 @@ class DashboardTabletScreen extends StatelessWidget {
                         context: context,
                         title: 'Sales total',
                         subTitle:
-                            '\$${controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount).toStringAsFixed(2)}',
+                            'Rs ${controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount).toStringAsFixed(2)}',
                       ),
                     ),
                   ),
@@ -55,7 +55,7 @@ class DashboardTabletScreen extends StatelessWidget {
                         context: context,
                         title: 'Average Order Value',
                         subTitle:
-                            '\$${(controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount) / controller.orderController.allItems.length).toStringAsFixed(2)}',
+                            'Rs ${(controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount) / controller.orderController.allItems.length).toStringAsFixed(2)}',
                         icon: Iconsax.arrow_down,
                         color: BaakasColors.error,
                       ),
@@ -76,7 +76,7 @@ class DashboardTabletScreen extends StatelessWidget {
                         context: context,
                         title: 'Total Orders',
                         subTitle:
-                            '\$${controller.orderController.allItems.length}',
+                            ' ${controller.orderController.allItems.length}',
                       ),
                     ),
                   ),

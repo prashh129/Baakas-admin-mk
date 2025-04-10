@@ -75,7 +75,7 @@ class OrderItems extends StatelessWidget {
                   const SizedBox(width: BaakasSizes.spaceBtwItems),
                   SizedBox(
                       width: BaakasSizes.xl * 2,
-                      child: Text('\$${item.price.toStringAsFixed(1)}',
+                      child: Text('Rs ${item.price.toStringAsFixed(1)}',
                           style: Theme.of(context).textTheme.bodyLarge)),
                   SizedBox(
                     width: BaakasDeviceUtils.isMobileScreen(context)
@@ -88,7 +88,7 @@ class OrderItems extends StatelessWidget {
                     width: BaakasDeviceUtils.isMobileScreen(context)
                         ? BaakasSizes.xl * 1.4
                         : BaakasSizes.xl * 2,
-                    child: Text('\$${item.totalAmount}',
+                    child: Text('Rs ${item.totalAmount}',
                         style: Theme.of(context).textTheme.bodyLarge),
                   ),
                 ],
@@ -108,7 +108,7 @@ class OrderItems extends StatelessWidget {
                   children: [
                     Text('Subtotal',
                         style: Theme.of(context).textTheme.titleLarge),
-                    Text('\$$subTotal',
+                    Text('Rs $subTotal',
                         style: Theme.of(context).textTheme.titleLarge),
                   ],
                 ),
@@ -129,7 +129,7 @@ class OrderItems extends StatelessWidget {
                     Text('Shipping',
                         style: Theme.of(context).textTheme.titleLarge),
                     Text(
-                      '\$${order.shippingCost.toStringAsFixed(2)}',
+                      'Rs ${order.shippingCost.toStringAsFixed(2)}',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
@@ -140,7 +140,7 @@ class OrderItems extends StatelessWidget {
                   children: [
                     Text('Tax', style: Theme.of(context).textTheme.titleLarge),
                     Text(
-                      '\$${order.taxCost.toStringAsFixed(2)}',
+                      'Rs ${order.taxCost.toStringAsFixed(2)}',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
@@ -154,7 +154,7 @@ class OrderItems extends StatelessWidget {
                     Text('Total',
                         style: Theme.of(context).textTheme.titleLarge),
                     Text(
-                      '\$${order.totalAmount.toStringAsFixed(2)}',
+                      'Rs ${order.totalAmount.toStringAsFixed(2)}',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],

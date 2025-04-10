@@ -17,7 +17,7 @@ class BaakasTexts {
   static const String skip = "Skip";
   static const String done = "Done";
   static const String submit = "Submit";
-  static const String appName = "T Store";
+  static const String appName = "Baakas Store";
   static const String tContinue = "Continue";
 
   // -- OnBoarding Texts

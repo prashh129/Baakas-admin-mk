@@ -22,7 +22,9 @@ class DashboardController extends BaakasBaseController<OrderModel> {
   Future<List<OrderModel>> fetchItems() async {
     // Fetch Orders if empty
     if (orderController.allItems.isEmpty) {
-      await orderController.fetchItems();
+       await orderController.fetchItems();
+      // await orderController.fetchThisWeekOrders();
+
     }
 
     // Fetch Customers if empty

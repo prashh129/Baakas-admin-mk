@@ -78,7 +78,7 @@ class ProductsRows extends DataTableSource {
             ],
           ),
         ),
-        DataCell(Text('\$${controller.getProductPrice(product)}')),
+        DataCell(Text('Rs ${controller.getProductPrice(product)}')),
         DataCell(Text(product.formattedDate)),
         DataCell(
           BaakasTableActionButtons(

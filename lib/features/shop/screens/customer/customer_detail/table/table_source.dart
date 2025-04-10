@@ -51,7 +51,7 @@ class CustomerOrdersRows extends DataTableSource {
             ),
           ),
         ),
-        DataCell(Text('\$$totalAmount')),
+        DataCell(Text('Rs $totalAmount')),
       ],
     );
   }

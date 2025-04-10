@@ -105,7 +105,7 @@ class ProductController extends BaakasBaseController<ProductModel> {
         return largestPrice.toString();
       } else {
         // Otherwise, return a price range
-        return '$smallestPrice - \$$largestPrice';
+        return '$smallestPrice - Rs $largestPrice';
       }
     }
   }

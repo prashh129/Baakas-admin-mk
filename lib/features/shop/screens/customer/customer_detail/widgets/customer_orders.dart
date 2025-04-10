@@ -50,7 +50,7 @@ class CustomerOrders extends StatelessWidget {
                     children: [
                       const TextSpan(text: 'Total Spent '),
                       TextSpan(
-                        text: '\$${totalAmount.toString()}',
+                        text: 'Rs ${totalAmount.toString()}',
                         style: Theme.of(context).textTheme.bodyLarge!.apply(
                           color: BaakasColors.primary,
                         ),

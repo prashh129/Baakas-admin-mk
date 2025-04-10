@@ -25,7 +25,7 @@ class BaakasWeeklySalesGraph extends StatelessWidget {
             children: [
               BaakasCircularIcon(
                 icon: Iconsax.graph,
-                backgroundColor: Colors.brown.withOpacity(0.1),
+                backgroundColor: Colors.brown.withValues(alpha: 0.1),
                 color: Colors.brown,
                 size: BaakasSizes.md,
               ),

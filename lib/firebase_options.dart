@@ -44,31 +44,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBNMvJgU9Iuajcvd-vysVejtbzaEsyYpdM',
-    appId: '1:213379821447:web:a9e5b3ffbcddc22839ed22',
-    messagingSenderId: '213379821447',
-    projectId: 'baakas-1a4c0',
-    authDomain: 'baakas-1a4c0.firebaseapp.com',
-    storageBucket: 'baakas-1a4c0.firebasestorage.app',
-    measurementId: 'G-SWF4BGDEPB',
+    apiKey: 'AIzaSyDDyUhf4s4MQw3mDUxGyW2VA6fq50Ql_wI',
+    appId: '1:911112448037:web:d328ab85d2627e8c8937cc',
+    messagingSenderId: '911112448037',
+    projectId: 'baakas-197b9',
+    authDomain: 'baakas-197b9.firebaseapp.com',
+    storageBucket: 'baakas-197b9.firebasestorage.app',
+    measurementId: 'G-LE23054Z6G',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCpVDwtNBJT3ecdLQqy8YNzhOFXN1HcRFI',
-    appId: '1:213379821447:android:337f5d9d6dc3afa639ed22',
-    messagingSenderId: '213379821447',
-    projectId: 'baakas-1a4c0',
-    storageBucket: 'baakas-1a4c0.firebasestorage.app',
+    apiKey: 'AIzaSyA0d_PDGTm3dr3fJU328WmQGf79z9C2zWw',
+    appId: '1:911112448037:android:d2eb8b9b35ff8ae68937cc',
+    messagingSenderId: '911112448037',
+    projectId: 'baakas-197b9',
+    storageBucket: 'baakas-197b9.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB0BBdeClyCQ5hvwlM4g8aBRZStmnyprsM',
-    appId: '1:213379821447:ios:d00f56e4994c339339ed22',
-    messagingSenderId: '213379821447',
-    projectId: 'baakas-1a4c0',
-    storageBucket: 'baakas-1a4c0.firebasestorage.app',
-    androidClientId: '213379821447-imtgdkneahlvm40hd6tm0e2g9a1f03q7.apps.googleusercontent.com',
-    iosClientId: '213379821447-im138c7aav5mp3jn65hjicr2dgoaesu3.apps.googleusercontent.com',
+    apiKey: 'AIzaSyA6EubIa31tXF-hNkGj9Gul5mUzUu61xeU',
+    appId: '1:911112448037:ios:9d97abeaf1d2aaf58937cc',
+    messagingSenderId: '911112448037',
+    projectId: 'baakas-197b9',
+    storageBucket: 'baakas-197b9.firebasestorage.app',
+    iosClientId: '911112448037-3v2orjbogjdu2u74fdu8i3rg9m9p3267.apps.googleusercontent.com',
     iosBundleId: 'com.example.baakasAdmin',
   );
 

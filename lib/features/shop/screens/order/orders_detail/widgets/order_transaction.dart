@@ -81,7 +81,7 @@ class OrderTransaction extends StatelessWidget {
                       style: Theme.of(context).textTheme.labelMedium,
                     ),
                     Text(
-                      '\$${order.totalAmount}',
+                      'Rs ${order.totalAmount}',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],

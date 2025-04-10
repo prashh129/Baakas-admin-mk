@@ -16,26 +16,48 @@ class OrderRepository extends GetxController {
 
   /* ---------------------------- FUNCTIONS ---------------------------------*/
 
-  // Get all orders related to the current user
-  Future<List<OrderModel>> getAllOrders() async {
-    try {
-      final result = await _db
-          .collection('Orders')
-          .orderBy('orderDate', descending: true)
-          .get();
-      return result.docs
-          .map((documentSnapshot) => OrderModel.fromSnapshot(documentSnapshot))
-          .toList();
-    } on FirebaseException catch (e) {
+  //Get all orders related to the current user
+   Future<List<OrderModel>> getAllOrders() async {
+     try {
+       final result = await _db
+           .collection('Orders')
+           .orderBy('orderDate', descending: true)
+           .get();
+       return result.docs
+           .map((documentSnapshot) => OrderModel.fromSnapshot(documentSnapshot))
+           .toList();
+     } on FirebaseException catch (e) {
       throw BaakasFirebaseException(e.code).message;
-    } on FormatException catch (_) {
+     } on FormatException catch (_) {
       throw const BaakasFormatException();
     } on PlatformException catch (e) {
-      throw BaakasPlatformException(e.code).message;
-    } catch (e) {
-      throw 'Something went wrong. Please try again';
-    }
+       throw BaakasPlatformException(e.code).message;
+     } catch (e) {
+       throw 'Something went wrong. Please try again';
+     }
   }
+  //       // Get all orders related to the current user
+  // Future<List<OrderModel>> getAllOrdersThisWeek() async {
+  //   try {
+  //     final now = DateTime.now();
+  //     final startOfWeek = DateTime(now.year, now.month, now.day)
+  //         .subtract(Duration(days: now.weekday - 1)); // Monday
+
+  //     final result = await _db
+  //         .collection('Orders')
+  //         .where('orderDate', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfWeek))
+  //         .orderBy('orderDate', descending: true)
+  //         .get();
+
+  //     return result.docs
+  //         .map((doc) => OrderModel.fromSnapshot(doc))
+  //         .toList();
+  //   } catch (e) {
+  //     // your existing error handling
+  //     throw 'Something went wrong. Please try again';
+  //   }
+  // }
+
 
   // Store a new user order
   Future<void> addOrder(OrderModel order) async {

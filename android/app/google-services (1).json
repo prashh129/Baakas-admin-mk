@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "733173680702",
+    "project_id": "baakas-120cc",
+    "storage_bucket": "baakas-120cc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:733173680702:android:d1a0dee0109a8960a25f6f",
+        "android_client_info": {
+          "package_name": "com.example.baakas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPTiYCD7z2BIii5_tuTqWZtknzHdlw4UU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:733173680702:android:908dba01190c02d5a25f6f",
+        "android_client_info": {
+          "package_name": "com.example.baakas_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPTiYCD7z2BIii5_tuTqWZtknzHdlw4UU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

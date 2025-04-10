@@ -49,7 +49,7 @@ class OrderRows extends DataTableSource {
             ),
           ),
         ),
-        DataCell(Text('\$${order.totalAmount}')),
+        DataCell(Text('Rs ${order.totalAmount}')),
       ],
     );
   }

@@ -111,7 +111,7 @@ class OrderStatusPieChart extends StatelessWidget {
                         ),
                         DataCell(Text(count.toString())),
                         DataCell(
-                          Text('\$${totalAmount.toStringAsFixed(2)}'),
+                          Text('Rs ${totalAmount.toStringAsFixed(2)}'),
                         ), // Format as needed
                       ],
                     );
