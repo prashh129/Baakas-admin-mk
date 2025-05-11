@@ -143,8 +143,9 @@ class ProductAttributes extends StatelessWidget {
                               width: 150,
                               height: 80,
                               imageType: ImageType.asset,
-                              image:
-                                  BaakasImages.defaultAttributeColorsImageIcon,
+                              image: BaakasImages.defaultAttributeColorsImageIcon,
+                              imageUrl: BaakasImages.defaultAttributeColorsImageIcon,
+                              isNetworkImage: false,
                             ),
                           ],
                         ),

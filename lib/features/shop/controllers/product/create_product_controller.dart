@@ -8,7 +8,7 @@ import '../../../../features/shop/controllers/product/product_attributes_control
 import '../../../../features/shop/controllers/product/product_controller.dart';
 import '../../../../features/shop/controllers/product/product_images_controller.dart';
 import '../../../../features/shop/controllers/product/product_variations_controller.dart';
-import '../../../../features/shop/models/brand_model.dart';
+import '../../../../features/shop/models/seller_model.dart';
 import '../../../../features/shop/models/category_model.dart';
 import '../../../../features/shop/models/product_category_model.dart';
 import '../../../../features/shop/models/product_model.dart';
@@ -39,10 +39,10 @@ class CreateProductController extends GetxController {
   TextEditingController price = TextEditingController();
   TextEditingController salePrice = TextEditingController();
   TextEditingController description = TextEditingController();
-  TextEditingController brandTextField = TextEditingController();
+  TextEditingController sellerTextField = TextEditingController();
 
-  // Rx observables for selected brand and categories
-  final Rx<BrandModel?> selectedBrand = Rx<BrandModel?>(null);
+  // Rx observables for selected seller and categories
+  final Rx<SellerModel?> selectedSeller = Rx<SellerModel?>(null);
   final RxList<CategoryModel> selectedCategories = <CategoryModel>[].obs;
 
   // Flags for tracking different tasks
@@ -77,8 +77,8 @@ class CreateProductController extends GetxController {
         return;
       }
 
-      // Ensure a brand is selected
-      if (selectedBrand.value == null) throw 'Select Brand for this product';
+      // Ensure a seller is selected
+      if (selectedSeller.value == null) throw 'Select Seller for this product';
 
       // Check variation data if ProductType = Variable
       if (productType.value == ProductType.variable &&
@@ -123,21 +123,11 @@ class CreateProductController extends GetxController {
       // Map Product Data to ProductModel
       final newRecord = ProductModel(
         id: '',
-        sku: '',
-        isFeatured: true,
-        title: title.text.trim(),
-        brand: selectedBrand.value,
-        productVariations: variations,
-        description: description.text.trim(),
-        productType: productType.value.toString(),
-        stock: int.tryParse(stock.text.trim()) ?? 0,
+        name: title.text.trim(),
+        category: selectedCategories.isNotEmpty ? selectedCategories.first.id : '',
         price: double.tryParse(price.text.trim()) ?? 0,
-        images: imagesController.additionalProductImagesUrls,
-        salePrice: double.tryParse(salePrice.text.trim()) ?? 0,
-        thumbnail: imagesController.selectedThumbnailImageUrl.value ?? '',
-        productAttributes:
-            ProductAttributesController.instance.productAttributes,
-        date: DateTime.now(),
+        status: 'pending',
+        description: description.text.trim(),
       );
 
       // Call Repository to Create New Product
@@ -185,8 +175,8 @@ class CreateProductController extends GetxController {
     stock.clear();
     price.clear();
     salePrice.clear();
-    brandTextField.clear();
-    selectedBrand.value = null;
+    sellerTextField.clear();
+    selectedSeller.value = null;
     selectedCategories.clear();
     ProductVariationController.instance.resetAllValues();
     ProductAttributesController.instance.resetProductAttributes();

@@ -5,7 +5,7 @@ class CartItemModel {
   String? image;
   int quantity;
   String variationId;
-  String? brandName;
+  String? sellerName;
   Map<String, String>? selectedVariation;
 
   /// Constructor
@@ -16,7 +16,7 @@ class CartItemModel {
     this.image,
     this.price = 0.0,
     this.title = '',
-    this.brandName,
+    this.sellerName,
     this.selectedVariation,
   });
 
@@ -35,7 +35,7 @@ class CartItemModel {
       'image': image,
       'quantity': quantity,
       'variationId': variationId,
-      'brandName': brandName,
+      'sellerName': sellerName,
       'selectedVariation': selectedVariation,
     };
   }
@@ -49,7 +49,7 @@ class CartItemModel {
       image: json['image'],
       quantity: json['quantity'],
       variationId: json['variationId'],
-      brandName: json['brandName'],
+      sellerName: json['sellerName'],
       selectedVariation: json['selectedVariation'] != null ? Map<String, String>.from(json['selectedVariation']) : null,
     );
   }

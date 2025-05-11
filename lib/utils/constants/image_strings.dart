@@ -43,18 +43,18 @@ class BaakasImages {
   static const String electronicsIcon =
       "assets/icons/categories/icons8-smartphone-64.png";
 
-  // -- Brand Icons
-  static const String nikeLogo = "assets/icons/brands/nike.png";
-  static const String adidasLogo = "assets/icons/brands/adidas-logo.png";
-  static const String appleLogo = "assets/icons/brands/apple-logo.png";
-  static const String jordanLogo = "assets/icons/brands/jordan-logo.png";
-  static const String pumaLogo = "assets/icons/brands/puma-logo.png";
-  static const String zaraLogo = "assets/icons/brands/zara-logo.png";
-  static const String kenwoodLogo = "assets/icons/brands/kenwood-logo.png";
+  // -- Seller Icons
+  static const String nikeLogo = "assets/icons/sellers/nike.png";
+  static const String adidasLogo = "assets/icons/sellers/adidas-logo.png";
+  static const String appleLogo = "assets/icons/sellers/apple-logo.png";
+  static const String jordanLogo = "assets/icons/sellers/jordan-logo.png";
+  static const String pumaLogo = "assets/icons/sellers/puma-logo.png";
+  static const String zaraLogo = "assets/icons/sellers/zara-logo.png";
+  static const String kenwoodLogo = "assets/icons/sellers/kenwood-logo.png";
   static const String hermanMillerLogo =
-      "assets/icons/brands/herman-miller-logo.png";
-  static const String ikeaLogo = "assets/icons/brands/ikea_logo.png";
-  static const String acerlogo = "assets/icons/brands/acer_logo.png";
+      "assets/icons/sellers/herman-miller-logo.png";
+  static const String ikeaLogo = "assets/icons/sellers/ikea_logo.png";
+  static const String acerlogo = "assets/icons/sellers/acer_logo.png";
 
   // -- Animations
   static const String errorIllustration =

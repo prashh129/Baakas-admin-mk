@@ -85,6 +85,10 @@ class BaakasHeader extends StatelessWidget implements PreferredSizeWidget {
                       controller.user.value.profilePicture.isNotEmpty
                           ? controller.user.value.profilePicture
                           : BaakasImages.user,
+                  imageUrl: controller.user.value.profilePicture.isNotEmpty
+                      ? controller.user.value.profilePicture
+                      : BaakasImages.user,
+                  isNetworkImage: controller.user.value.profilePicture.isNotEmpty,
                 ),
               ),
 

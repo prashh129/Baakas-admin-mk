@@ -17,7 +17,7 @@ class CreateBannerController extends GetxController {
   final imageURL = ''.obs;
   final loading = false.obs;
   final isActive = false.obs;
-  final RxString targetScreen = AppScreens.allAppScreenItems[0].obs;
+  final RxString targetScreen = BaakasRoutes.allAppScreenItems[0].obs;
   final formKey = GlobalKey<FormState>();
 
   /// Pick Thumbnail Image from Media

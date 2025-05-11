@@ -32,6 +32,8 @@ class BannersRows extends DataTableSource {
             imageType: ImageType.network,
             borderRadius: BaakasSizes.borderRadiusMd,
             backgroundColor: BaakasColors.primaryBackground,
+            imageUrl: banner.imageUrl,
+            isNetworkImage: true,
           ),
         ),
         DataCell(Text(controller.formatRoute(banner.targetScreen))),

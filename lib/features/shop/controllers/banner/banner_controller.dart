@@ -2,6 +2,7 @@ import 'package:baakas_admin/data/abstract/base_data_table_controller.dart';
 import 'package:get/get.dart';
 
 import '../../../../data/repositories/banners/banners_repository.dart';
+import '../../../../utils/popups/loaders.dart';
 import '../../models/banner_model.dart';
 
 class BannerController extends BaakasBaseController<BannerModel> {
@@ -33,7 +34,7 @@ class BannerController extends BaakasBaseController<BannerModel> {
 
       return formatted;
     } catch (e) {
-      print(e);
+      BaakasLoaders.errorSnackBar(title: 'Error', message: e.toString());
       return '';
     }
   }

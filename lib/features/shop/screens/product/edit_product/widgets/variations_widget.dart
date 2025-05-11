@@ -99,21 +99,13 @@ class ProductVariations extends StatelessWidget {
         // Upload Variation Image
         Obx(
           () => BaakasImageUploader(
-            right: 0,
-            left: null,
-            circular: true,
-            imageType:
-                variation.image.value.isNotEmpty
-                    ? ImageType.network
-                    : ImageType.asset,
-            image:
-                variation.image.value.isNotEmpty
-                    ? variation.image.value
-                    : BaakasImages.defaultImage,
-            onIconButtonPressed:
-                () => ProductImagesController.instance.selectVariationImage(
-                  variation,
-                ),
+            image: variation.image.value.isNotEmpty
+                ? variation.image.value
+                : BaakasImages.defaultImage,
+            imageType: variation.image.value.isNotEmpty
+                ? ImageType.network
+                : ImageType.asset,
+            onImageSelected: (image) => ProductImagesController.instance.selectVariationImage(variation),
           ),
         ),
         const SizedBox(height: BaakasSizes.spaceBtwInputFields),
@@ -191,6 +183,8 @@ class ProductVariations extends StatelessWidget {
               height: 200,
               imageType: ImageType.asset,
               image: BaakasImages.defaultVariationImageIcon,
+              imageUrl: BaakasImages.defaultVariationImageIcon,
+              isNetworkImage: false,
             ),
           ],
         ),

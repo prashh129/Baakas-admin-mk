@@ -10,9 +10,8 @@ import '../../../../features/shop/controllers/product/product_attributes_control
 import '../../../../features/shop/controllers/product/product_controller.dart';
 import '../../../../features/shop/controllers/product/product_images_controller.dart';
 import '../../../../features/shop/controllers/product/product_variations_controller.dart';
-import '../../../../features/shop/models/brand_model.dart';
+import '../../../../features/shop/models/seller_model.dart';
 import '../../../../features/shop/models/category_model.dart';
-import '../../../../features/shop/models/product_category_model.dart';
 import '../../../../features/shop/models/product_model.dart';
 import '../../../../utils/constants/enums.dart';
 import '../../../../utils/constants/image_strings.dart';
@@ -45,10 +44,10 @@ class EditProductController extends GetxController {
   TextEditingController stock = TextEditingController();
   TextEditingController price = TextEditingController();
   TextEditingController salePrice = TextEditingController();
-  TextEditingController brandTextField = TextEditingController();
+  TextEditingController sellerTextField = TextEditingController();
 
-  // Rx observables for selected brand and categories
-  final Rx<BrandModel?> selectedBrand = Rx<BrandModel?>(null);
+  // Rx observables for selected seller and categories
+  final Rx<SellerModel?> selectedSeller = Rx<SellerModel?>(null);
   final RxList<CategoryModel> selectedCategories = <CategoryModel>[].obs;
   final List<CategoryModel> alreadyAddedCategories = <CategoryModel>[];
 
@@ -64,48 +63,29 @@ class EditProductController extends GetxController {
       isLoading.value = true; // Set loading state while initializing data
 
       // Basic Information
-      title.text = product.title;
-      description.text = product.description ?? '';
-      productType.value =
-          product.productType == ProductType.single.toString()
-              ? ProductType.single
-              : ProductType.variable;
+      title.text = product.name;
+      description.text = ''; // No description in simplified model
+      productType.value = ProductType.single; // Default to single type
 
-      // Stock & Pricing (assuming productType and productVisibility are handled elsewhere)
-      if (product.productType == ProductType.single.toString()) {
-        stock.text = product.stock.toString();
-        price.text = product.price.toString();
-        salePrice.text = product.salePrice.toString();
-      }
+      // Stock & Pricing
+      stock.text = '0'; // No stock in simplified model
+      price.text = product.price.toString();
+      salePrice.text = '0'; // No sale price in simplified model
 
-      // Product Brand
-      selectedBrand.value = product.brand;
-      brandTextField.text = product.brand?.name ?? '';
+      // Product Seller
+      selectedSeller.value = null; // No seller in simplified model
+      sellerTextField.text = '';
 
       // Product Thumbnail and Images
-      if (product.images != null) {
-        // Set the first image as the thumbnail
-        imagesController.selectedThumbnailImageUrl.value = product.thumbnail;
+      imagesController.selectedThumbnailImageUrl.value = '';
+      imagesController.additionalProductImagesUrls.clear();
 
-        // Add the images to additionalProductImagesUrl
-        imagesController.additionalProductImagesUrls.assignAll(
-          product.images ?? [],
-        );
-      }
+      // Product Attributes & Variations
+      attributesController.productAttributes.clear();
+      variationsController.productVariations.clear();
+      variationsController.initializeVariationControllers([]);
 
-      // Product Attributes & Variations (assuming you have a method to fetch variations in ProductVariationController)
-      attributesController.productAttributes.assignAll(
-        product.productAttributes ?? [],
-      );
-      variationsController.productVariations.assignAll(
-        product.productVariations ?? [],
-      );
-      variationsController.initializeVariationControllers(
-        product.productVariations ?? [],
-      );
-
-      isLoading.value =
-          false; // Set loading state back to false after initialization
+      isLoading.value = false; // Set loading state back to false after initialization
 
       update();
     } catch (e) {
@@ -135,7 +115,7 @@ class EditProductController extends GetxController {
     return categories;
   }
 
-  // Function to create a new product
+  // Function to edit a product
   Future<void> editProduct(ProductModel product) async {
     try {
       // Show progress dialog
@@ -154,118 +134,21 @@ class EditProductController extends GetxController {
         return;
       }
 
-      // Validate stock and pricing form if ProductType = Single
-      if (productType.value == ProductType.single &&
-          !stockPriceFormKey.currentState!.validate()) {
-        BaakasFullScreenLoader.stopLoading();
-        return;
-      }
+      // Create updated product with new values
+      final updatedProduct = ProductModel(
+        id: product.id,
+        name: title.text.trim(),
+        category: product.category,
+        price: double.tryParse(price.text.trim()) ?? 0,
+        status: product.status, description: '',
+      );
 
-      // Ensure a brand is selected
-      if (selectedBrand.value == null) throw 'Select Brand for this product';
-
-      // Check variation data if ProductType = Variable
-      if (productType.value == ProductType.variable &&
-          ProductVariationController.instance.productVariations.isEmpty) {
-        throw 'There are no variations for the Product Type Variable. Create some variations or change Product type.';
-      }
-      if (productType.value == ProductType.variable) {
-        final variationCheckFailed = ProductVariationController
-            .instance
-            .productVariations
-            .any(
-              (element) =>
-                  element.price.isNaN ||
-                  element.price < 0 ||
-                  element.salePrice.isNaN ||
-                  element.salePrice < 0 ||
-                  element.stock.isNaN ||
-                  element.stock < 0,
-            );
-
-        if (variationCheckFailed) {
-          throw 'Variation data is not accurate. Please recheck variations';
-        }
-      }
-
-      // Upload Product Thumbnail Image
-      final imagesController = ProductImagesController.instance;
-      if (imagesController.selectedThumbnailImageUrl.value == null ||
-          imagesController.selectedThumbnailImageUrl.value!.isEmpty) {
-        throw 'Upload Product Thumbnail Image';
-      }
-
-      // Upload Product Variation Images if any
-      var variations = ProductVariationController.instance.productVariations;
-      if (productType.value == ProductType.single && variations.isNotEmpty) {
-        // If admin added variations and then changed the Product Type, remove all variations
-        ProductVariationController.instance.resetAllValues();
-        variations.value = [];
-      }
-
-      product.sku = '';
-      product.isFeatured = true;
-      product.title = title.text.trim();
-      product.brand = selectedBrand.value;
-      product.description = description.text.trim();
-      product.productType = productType.value.toString();
-      product.stock = int.tryParse(stock.text.trim()) ?? 0;
-      product.price = double.tryParse(price.text.trim()) ?? 0;
-      product.images = imagesController.additionalProductImagesUrls;
-      product.salePrice = double.tryParse(salePrice.text.trim()) ?? 0;
-      product.thumbnail =
-          imagesController.selectedThumbnailImageUrl.value ?? '';
-      product.productAttributes =
-          ProductAttributesController.instance.productAttributes;
-      product.productVariations = variations;
-
-      // Call Repository to Update New Product
+      // Call Repository to Update Product
       productDataUploader.value = true;
-      await ProductRepository.instance.updateProduct(product);
-
-      // Register product categories if any
-      if (selectedCategories.isNotEmpty) {
-        // Loop through selected Product Categories
-        categoriesRelationshipUploader.value = true;
-
-        // Get the existing category IDs
-        List<String> existingCategoryIds =
-            alreadyAddedCategories.map((category) => category.id).toList();
-
-        for (var category in selectedCategories) {
-          // Check if the category is not already associated with the product
-          if (!existingCategoryIds.contains(category.id)) {
-            // Map Data
-            final productCategory = ProductCategoryModel(
-              productId: product.id,
-              categoryId: category.id,
-            );
-            await ProductRepository.instance.createProductCategory(
-              productCategory,
-            );
-          }
-        }
-
-        // Remove categories not selected by the user`
-        for (var existingCategoryId in existingCategoryIds) {
-          // Check if the category is not present in the selected categories
-          if (!selectedCategories.any(
-            (category) => category.id == existingCategoryId,
-          )) {
-            // Remove the association
-            await ProductRepository.instance.removeProductCategory(
-              product.id,
-              existingCategoryId,
-            );
-          }
-        }
-      }
+      await ProductRepository.instance.updateProduct(updatedProduct);
 
       // Update Product List
-      ProductController.instance.updateItemFromLists(product);
-
-      // Reset Form Values
-      // resetValues();
+      ProductController.instance.updateItemFromLists(updatedProduct);
 
       // Close the Progress Loader
       BaakasFullScreenLoader.stopLoading();
@@ -290,8 +173,8 @@ class EditProductController extends GetxController {
     stock.clear();
     price.clear();
     salePrice.clear();
-    brandTextField.clear();
-    selectedBrand.value = null;
+    sellerTextField.clear();
+    selectedSeller.value = null;
     selectedCategories.clear();
     ProductVariationController.instance.resetAllValues();
     ProductAttributesController.instance.resetProductAttributes();

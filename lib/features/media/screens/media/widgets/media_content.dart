@@ -100,6 +100,8 @@ class MediaContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Wrap(
+                  spacing: BaakasSizes.spaceBtwItems,
+                  runSpacing: BaakasSizes.spaceBtwItems,
                   alignment: WrapAlignment.start,
                   crossAxisAlignment: WrapCrossAlignment.start,
                   children:
@@ -198,9 +200,9 @@ class MediaContent extends StatelessWidget {
           controller.allBannerImages
               .where((image) => image.url.isNotEmpty)
               .toList();
-    } else if (controller.selectedPath.value == MediaCategory.brands) {
+    } else if (controller.selectedPath.value == MediaCategory.sellers) {
       images =
-          controller.allBrandImages
+          controller.allSellerImages
               .where((image) => image.url.isNotEmpty)
               .toList();
     } else if (controller.selectedPath.value == MediaCategory.categories) {
@@ -266,9 +268,9 @@ class MediaContent extends StatelessWidget {
   Obx _buildMediaDropdown(MediaController controller) {
     return Obx(
       () => SizedBox(
-        width: 140,
+        width: 180,
         child: DropdownButtonFormField<MediaCategory>(
-          isExpanded: false,
+          isExpanded: true,
           value: controller.selectedPath.value,
           onChanged: (MediaCategory? newValue) {
             if (newValue != null) {
@@ -281,13 +283,15 @@ class MediaContent extends StatelessWidget {
               controller.getMediaImages();
             }
           },
-          items:
-              MediaCategory.values.map((category) {
-                return DropdownMenuItem<MediaCategory>(
-                  value: category,
-                  child: Text(category.name.capitalize.toString()),
-                );
-              }).toList(),
+          items: MediaCategory.values.map((category) {
+            return DropdownMenuItem<MediaCategory>(
+              value: category,
+              child: Text(
+                category.name.capitalize.toString(),
+                overflow: TextOverflow.ellipsis,
+              ),
+            );
+          }).toList(),
         ),
       ),
     );
@@ -302,6 +306,8 @@ class MediaContent extends StatelessWidget {
       imageType: ImageType.network,
       margin: BaakasSizes.spaceBtwItems / 2,
       backgroundColor: BaakasColors.primaryBackground,
+      imageUrl: image.url,
+      isNetworkImage: true,
     );
   }
 
@@ -316,6 +322,8 @@ class MediaContent extends StatelessWidget {
           imageType: ImageType.network,
           margin: BaakasSizes.spaceBtwItems / 2,
           backgroundColor: BaakasColors.primaryBackground,
+          imageUrl: image.url,
+          isNetworkImage: true,
         ),
         Positioned(
           top: BaakasSizes.md,

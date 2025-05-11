@@ -11,7 +11,7 @@ import '../../create_product/widgets/additional_images.dart';
 import '../../create_product/widgets/thumbnail_widget.dart';
 import '../widgets/attributes_widget.dart';
 import '../widgets/bottom_navigation_widget.dart';
-import '../widgets/brand_widget.dart';
+import '../widgets/seller_widget.dart';
 import '../widgets/categories_widget.dart';
 import '../widgets/product_type_widget.dart';
 import '../widgets/stock_pricing_widget.dart';
@@ -109,8 +109,8 @@ class EditProductMobileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: BaakasSizes.spaceBtwSections),
 
-                  // Product Brand
-                  const ProductBrand(),
+                  // Product Seller
+                  const ProductSeller(),
                   const SizedBox(height: BaakasSizes.spaceBtwSections),
 
                   // Product Categories

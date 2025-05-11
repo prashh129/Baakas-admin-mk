@@ -1,3 +1,4 @@
+import 'package:baakas_admin/features/shop/widgets/products_table.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,7 +7,6 @@ import '../../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../../common/widgets/loaders/loader_animation.dart';
 import '../../../../../../utils/constants/sizes.dart';
 import '../../../../controllers/product/product_controller.dart';
-import '../table/products_table.dart';
 import '../widgets/table_header.dart';
 
 class ProductsMobileScreen extends StatelessWidget {
@@ -23,7 +23,8 @@ class ProductsMobileScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const BaakasBreadcrumbsWithHeading(
-                  heading: 'Products', breadcrumbItems: ['Products']),
+                  heading: 'Products', 
+                  breadcrumbItems: ['Products']),
               const SizedBox(height: BaakasSizes.spaceBtwSections),
 
               // Table Body
@@ -41,7 +42,7 @@ class ProductsMobileScreen extends StatelessWidget {
                       SizedBox(height: BaakasSizes.spaceBtwItems),
 
                       // Table
-                      ProductsTable(),
+                      ProductsTable(status: '',),
                     ],
                   ),
                 );

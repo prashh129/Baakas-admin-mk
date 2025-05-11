@@ -37,6 +37,8 @@ class OrderTransaction extends StatelessWidget {
                     const BaakasRoundedImage(
                       imageType: ImageType.asset,
                       image: BaakasImages.paypal,
+                      imageUrl: BaakasImages.paypal,
+                      isNetworkImage: false,
                     ),
                     Expanded(
                       child: Column(

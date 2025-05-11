@@ -25,7 +25,7 @@ class BaakasRoundedImage extends StatelessWidget {
     this.margin,
     this.fit = BoxFit.contain,
     this.applyImageRadius = true,
-    this.borderRadius = BaakasSizes.md,
+    this.borderRadius = BaakasSizes.md, required String imageUrl, required bool isNetworkImage,
   });
 
   final bool applyImageRadius;

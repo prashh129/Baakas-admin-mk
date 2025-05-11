@@ -3,29 +3,33 @@ import 'package:baakas_admin/features/media/screens/media/media.dart';
 import 'package:baakas_admin/features/personalization/screens/profile/profile.dart';
 import 'package:baakas_admin/features/personalization/screens/settings/settings.dart';
 import 'package:baakas_admin/features/shop/screens/banner/edit_banner/edit_banner.dart';
-import 'package:baakas_admin/features/shop/screens/brand/all_brands/brands.dart';
 import 'package:baakas_admin/features/shop/screens/category/all_categories/categories.dart';
 import 'package:baakas_admin/features/shop/screens/category/create_category/create_category.dart';
 import 'package:baakas_admin/features/shop/screens/category/edit_category/edit_category.dart';
 import 'package:baakas_admin/features/shop/screens/customer/all_customers/customers.dart';
+import 'package:baakas_admin/features/shop/screens/kyc/kyc_review_screen.dart';
 import 'package:baakas_admin/features/shop/screens/order/orders_detail/order_detail.dart'
     show OrderDetailScreen;
+import 'package:baakas_admin/features/shop/screens/product/all_products/all_products_screen.dart';
 import 'package:baakas_admin/features/shop/screens/product/create_product/create_product.dart';
 import 'package:baakas_admin/features/shop/screens/product/edit_product/edit_product.dart';
+import 'package:baakas_admin/features/shop/screens/seller/all_sellers/sellers.dart';
+import 'package:baakas_admin/features/shop/screens/seller/create_seller/create_seller.dart';
+import 'package:baakas_admin/features/shop/screens/seller/edit_seller/edit_seller.dart';
+import 'package:baakas_admin/features/shop/screens/seller/seller_details/seller_details_screen.dart';
 import 'package:get/get.dart';
 import '../features/authentication/screens/forget_password/forget_password.dart';
 import '../features/authentication/screens/login/login.dart';
 import '../features/shop/screens/banner/all_banners/banners.dart';
 import '../features/shop/screens/banner/create_banner/create_banner.dart';
-import '../features/shop/screens/brand/create_brand/create_brand.dart';
-import '../features/shop/screens/brand/edit_brand/edit_brand.dart';
 import '../features/shop/screens/coupon/all_coupons/coupons.dart';
+import '../features/shop/screens/coupon/create_coupon/create_coupon.dart';
 import '../features/shop/screens/customer/customer_detail/customer.dart';
 import '../features/shop/screens/dashboard/dashboard.dart';
 import '../features/shop/screens/order/all_orders/orders.dart';
-import '../features/shop/screens/product/all_products/products.dart';
 import 'routes.dart';
 import 'routes_middleware.dart';
+import 'package:baakas_admin/common/widgets/page_not_found/page_not_found.dart';
 
 class BaakasAppRoute {
   static final List<GetPage> pages = [
@@ -69,7 +73,7 @@ class BaakasAppRoute {
     // Products
     GetPage(
       name: BaakasRoutes.products,
-      page: () => const ProductsScreen(),
+      page: () => const AllProductsScreen(),
       middlewares: [BaakasRouteMiddleware()],
     ),
     GetPage(
@@ -100,37 +104,40 @@ class BaakasAppRoute {
       middlewares: [BaakasRouteMiddleware()],
     ),
 
-    // Brands
+    // Sellers
     GetPage(
-      name: BaakasRoutes.brands,
-      page: () => const BrandsScreen(),
+      name: BaakasRoutes.sellers,
+      page: () => const SellersScreen(),
       middlewares: [BaakasRouteMiddleware()],
     ),
     GetPage(
-      name: BaakasRoutes.createBrand,
-      page: () => const CreateBrandScreen(),
+      name: BaakasRoutes.createSeller,
+      page: () => const CreateSellerScreen(),
       middlewares: [BaakasRouteMiddleware()],
     ),
     GetPage(
-      name: BaakasRoutes.editBrand,
-      page: () => const EditBrandScreen(),
+      name: BaakasRoutes.editSeller,
+      page: () => const EditSellerScreen(),
+      middlewares: [BaakasRouteMiddleware()],
+    ),
+    GetPage(
+      name: BaakasRoutes.sellerDetails,
+      page: () {
+        final seller = Get.arguments;
+        return seller != null ? SellerDetailsScreen(seller: seller) : const BaakasPageNotFound();
+      },
       middlewares: [BaakasRouteMiddleware()],
     ),
 
     // Coupons
     GetPage(
-      name: BaakasRoutes.brands,
-      page: () => const BrandsScreen(),
+      name: BaakasRoutes.coupons,
+      page: () => const CouponsScreen(),
       middlewares: [BaakasRouteMiddleware()],
     ),
     GetPage(
-      name: BaakasRoutes.createBrand,
-      page: () => const CreateBrandScreen(),
-      middlewares: [BaakasRouteMiddleware()],
-    ),
-    GetPage(
-      name: BaakasRoutes.editBrand,
-      page: () => const EditBrandScreen(),
+      name: BaakasRoutes.createCoupon,
+      page: () => const CreateCouponScreen(),
       middlewares: [BaakasRouteMiddleware()],
     ),
 
@@ -158,12 +165,7 @@ class BaakasAppRoute {
       middlewares: [BaakasRouteMiddleware()],
     ),
 
-    // Coupons
-    GetPage(
-      name: BaakasRoutes.coupons,
-      page: () => const CouponsScreen(),
-      middlewares: [BaakasRouteMiddleware()],
-    ),
+    // Settings
     GetPage(
       name: BaakasRoutes.settings,
       page: () => const SettingsScreen(),
@@ -174,5 +176,10 @@ class BaakasAppRoute {
       page: () => const ProfileScreen(),
       middlewares: [BaakasRouteMiddleware()],
     ),
+    GetPage(
+      name: BaakasRoutes.kycReview,
+      page: () => const KYCReviewScreen(),
+    ),
+
   ];
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 import '../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../common/widgets/images/image_uploader.dart';
@@ -29,21 +28,13 @@ class ImageAndMeta extends StatelessWidget {
               // User Image
               Obx(
                 () => BaakasImageUploader(
-                  right: 10,
-                  bottom: 20,
-                  left: null,
-                  width: 200,
-                  height: 200,
-                  circular: true,
-                  icon: Iconsax.camera,
-                  loading: controller.loading.value,
-                  onIconButtonPressed: () => controller.updateProfilePicture(),
-                  imageType: controller.user.value.profilePicture.isNotEmpty
-                      ? ImageType.network
-                      : ImageType.asset,
                   image: controller.user.value.profilePicture.isNotEmpty
                       ? controller.user.value.profilePicture
                       : BaakasImages.user,
+                  imageType: controller.user.value.profilePicture.isNotEmpty
+                      ? ImageType.network
+                      : ImageType.asset,
+                  onImageSelected: (image) => controller.updateProfilePicture(),
                 ),
               ),
               const SizedBox(height: BaakasSizes.spaceBtwItems),

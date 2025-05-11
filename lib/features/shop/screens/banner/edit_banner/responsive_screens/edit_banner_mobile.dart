@@ -1,10 +1,10 @@
+import 'package:baakas_admin/features/shop/screens/banner/edit_banner/widgets/edit_seller_form.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import '../../../../../../routes/routes.dart';
 import '../../../../../../utils/constants/sizes.dart';
 import '../../../../models/banner_model.dart';
-import '../widgets/edit_brand_form.dart';
 
 class EditBannerMobileScreen extends StatelessWidget {
   const EditBannerMobileScreen({super.key, required this.banner});

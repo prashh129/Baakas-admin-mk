@@ -39,6 +39,10 @@ class CustomerInfo extends StatelessWidget {
                 imageType: customer.profilePicture.isNotEmpty
                     ? ImageType.network
                     : ImageType.asset,
+                imageUrl: customer.profilePicture.isNotEmpty
+                    ? customer.profilePicture
+                    : BaakasImages.user,
+                isNetworkImage: customer.profilePicture.isNotEmpty,
               ),
               const SizedBox(width: BaakasSizes.spaceBtwItems),
               Expanded(

@@ -6,6 +6,8 @@ class BaakasRoutes {
   static const resetPassword = '/resetPassword';
   static const dashboard = '/dashboard';
   static const media = '/media';
+  static const kycReview = '/kyc-review'; // edited by prashant mk
+  static const String sellerDetails = '/seller-details';
 
   static const banners = '/banners';
   static const createBanner = '/createBanner';
@@ -19,9 +21,9 @@ class BaakasRoutes {
   static const createCategory = '/createCategory';
   static const editCategory = '/editCategory';
 
-  static const brands = '/brands';
-  static const createBrand = '/createBrand';
-  static const editBrand = '/editBrand';
+  static const sellers = '/sellers';
+  static const createSeller = '/createSeller';
+  static const editSeller = '/editSeller';
 
   static const customers = '/customers';
   static const createCustomer = '/createCustomer';
@@ -37,6 +39,8 @@ class BaakasRoutes {
   static const settings = '/settings';
   static const profile = '/profile';
 
+  static const String productManagement = '/product-management';
+
   static List sideMenuItems = [
     login,
     forgetPassword,
@@ -44,21 +48,22 @@ class BaakasRoutes {
     media,
     products,
     categories,
-    brands,
+    sellers,
     customers,
     orders,
     coupons,
     settings,
     profile,
   ];
-}
+
+
 
 // All App Screens
-class AppScreens {
-  static const home = '/';
-  static const store = '/store';
-  static const favourites = '/favourites';
-  static const settings = '/settings';
+static const String appHome = '/';
+static const String appStore = '/store';
+static const String appFavourites = '/favourites';
+static const String appSettings = '/settings';
+
   static const subCategories = '/sub-categories';
   static const search = '/search';
   static const productReviews = '/product-reviews';
@@ -66,29 +71,29 @@ class AppScreens {
   static const order = '/order';
   static const checkout = '/checkout';
   static const cart = '/cart';
-  static const brand = '/brand';
+  static const seller = '/seller';
   static const allProducts = '/all-products';
   static const userProfile = '/user-profile';
   static const userAddress = '/user-address';
-  static const signUp = '/signup';
-  static const signupSuccess = '/signup-success';
-  static const verifyEmail = '/verify-email';
-  static const signIn = '/sign-in';
-  static const resetPassword = '/reset-password';
-  static const forgetPassword = '/forget-password';
-  static const onBoarding = '/on-boarding';
+  static const appSignUp = '/signup';
+  static const appSignupSuccess = '/signup-success';
+  static const appVerifyEmail = '/verify-email';
+  static const appSignIn = '/sign-in';
+  static const appResetPassword = '/reset-password';
+  static const appForgetPassword = '/forget-password';
+  static const appOnBoarding = '/on-boarding';
 
   static List<String> allAppScreenItems = [
-    onBoarding,
-    signIn,
-    signUp,
-    verifyEmail,
-    resetPassword,
-    forgetPassword,
-    home,
-    store,
-    favourites,
-    settings,
+    appOnBoarding,
+    appSignIn,
+    appSignUp,
+    appVerifyEmail,
+    appResetPassword,
+    appForgetPassword,
+    appHome,
+    appStore,
+    appFavourites,
+    appSettings,
     subCategories,
     search,
     productDetail,
@@ -96,7 +101,7 @@ class AppScreens {
     order,
     checkout,
     cart,
-    brand,
+    seller,
     allProducts,
     userProfile,
     userAddress,

@@ -9,6 +9,7 @@ class OrderModel {
   final String id;
   final String docId;
   final String userId;
+  final String sellerId;
   OrderStatus status;
   final double totalAmount;
   final double shippingCost;
@@ -24,6 +25,7 @@ class OrderModel {
   OrderModel({
     required this.id,
     this.userId = '',
+    this.sellerId = '',
     this.docId = '',
     required this.status,
     required this.items,
@@ -66,6 +68,7 @@ class OrderModel {
     return {
       'id': id,
       'userId': userId,
+      'sellerId': sellerId,
       'status': status.toString(), // Enum to string
       'totalAmount': totalAmount,
       'shippingCost': shippingCost,
@@ -90,6 +93,7 @@ class OrderModel {
       docId: snapshot.id,
       id: data.containsKey('id') ? data['id'] as String : '',
       userId: data.containsKey('userId') ? data['userId'] as String : '',
+      sellerId: data.containsKey('sellerId') ? data['sellerId'] as String : '',
       status: data.containsKey('status')
           ? OrderStatus.values.firstWhere((e) => e.toString() == data['status'])
           : OrderStatus.pending,

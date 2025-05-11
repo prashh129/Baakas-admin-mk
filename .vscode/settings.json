@@ -1,3 +1,4 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cmake.sourceDirectory": "C:/Users/prasa/Baakas by dipesh/Baakas_admin final/Baakas admin/linux"
 }

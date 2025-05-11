@@ -55,6 +55,8 @@ class ImagePopup extends StatelessWidget {
                                 ? MediaQuery.of(context).size.width * 0.4
                                 : double.infinity,
                         imageType: ImageType.network,
+                        imageUrl: image.url,
+                        isNetworkImage: true,
                       ),
                     ),
                     // Close icon button positioned at the top-right corner.

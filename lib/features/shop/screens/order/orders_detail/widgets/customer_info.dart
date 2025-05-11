@@ -49,6 +49,11 @@ class OrderCustomer extends StatelessWidget {
                           controller.customer.value.profilePicture.isNotEmpty
                               ? ImageType.network
                               : ImageType.asset,
+                      imageUrl:
+                          controller.customer.value.profilePicture.isNotEmpty
+                              ? controller.customer.value.profilePicture
+                              : BaakasImages.user,
+                      isNetworkImage: controller.customer.value.profilePicture.isNotEmpty,
                     ),
                     const SizedBox(width: BaakasSizes.spaceBtwItems),
                     Expanded(

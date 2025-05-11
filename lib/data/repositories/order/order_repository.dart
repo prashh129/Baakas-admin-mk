@@ -36,27 +36,6 @@ class OrderRepository extends GetxController {
        throw 'Something went wrong. Please try again';
      }
   }
-  //       // Get all orders related to the current user
-  // Future<List<OrderModel>> getAllOrdersThisWeek() async {
-  //   try {
-  //     final now = DateTime.now();
-  //     final startOfWeek = DateTime(now.year, now.month, now.day)
-  //         .subtract(Duration(days: now.weekday - 1)); // Monday
-
-  //     final result = await _db
-  //         .collection('Orders')
-  //         .where('orderDate', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfWeek))
-  //         .orderBy('orderDate', descending: true)
-  //         .get();
-
-  //     return result.docs
-  //         .map((doc) => OrderModel.fromSnapshot(doc))
-  //         .toList();
-  //   } catch (e) {
-  //     // your existing error handling
-  //     throw 'Something went wrong. Please try again';
-  //   }
-  // }
 
 
   // Store a new user order

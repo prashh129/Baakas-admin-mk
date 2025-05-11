@@ -74,15 +74,13 @@ class EditCategoryForm extends StatelessWidget {
             // Image Uploader & Featured Checkbox
             Obx(
               () => BaakasImageUploader(
-                width: 80,
-                height: 80,
                 image: editController.imageURL.value.isNotEmpty
                     ? editController.imageURL.value
                     : BaakasImages.defaultImage,
                 imageType: editController.imageURL.value.isNotEmpty
                     ? ImageType.network
                     : ImageType.asset,
-                onIconButtonPressed: () => editController.pickImage(),
+                onImageSelected: (image) => editController.pickImage(),
               ),
             ),
             const SizedBox(height: BaakasSizes.spaceBtwInputFields),

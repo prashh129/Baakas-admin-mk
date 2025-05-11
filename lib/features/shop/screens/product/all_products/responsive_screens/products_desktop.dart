@@ -1,4 +1,5 @@
 import 'package:baakas_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
+import 'package:baakas_admin/features/shop/widgets/products_table.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,7 +7,6 @@ import '../../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../../common/widgets/loaders/loader_animation.dart';
 import '../../../../../../utils/constants/sizes.dart';
 import '../../../../controllers/product/product_controller.dart';
-import '../table/products_table.dart';
 import '../widgets/table_header.dart';
 
 class ProductsDesktopScreen extends StatelessWidget {
@@ -44,7 +44,7 @@ class ProductsDesktopScreen extends StatelessWidget {
                       SizedBox(height: BaakasSizes.spaceBtwItems),
 
                       // Table
-                      ProductsTable(),
+                      ProductsTable(status: '',),
                     ],
                   ),
                 );

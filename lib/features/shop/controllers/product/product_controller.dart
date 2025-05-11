@@ -1,8 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../data/abstract/base_data_table_controller.dart';
 import '../../../../data/repositories/product/product_repository.dart';
 import '../../../../utils/constants/enums.dart';
+import '../../../../utils/constants/image_strings.dart';
+import '../../../../utils/constants/sizes.dart';
+import '../../../../utils/helpers/network_manager.dart';
+import '../../../../utils/popups/full_screen_loader.dart';
 import '../../../../utils/popups/loaders.dart';
 import '../../models/product_model.dart';
 import '../order/order_controller.dart';
@@ -11,106 +17,228 @@ class ProductController extends BaakasBaseController<ProductModel> {
   static ProductController get instance => Get.find();
 
   final _productRepository = Get.put(ProductRepository());
+  
+  // Add current tab tracking
+  final RxString currentTab = 'pending'.obs;
+
+  // Variables
+  final isLoading = false.obs;
+  final searchTextController = TextEditingController();
+  final filteredItems = <ProductModel>[].obs;
+  final allItems = <ProductModel>[].obs;
+  final selectedRows = <bool>[].obs;
+  final sortColumnIndex = 0.obs;
+  final sortAscending = true.obs;
+  final hasError = false.obs;
+  final errorMessage = ''.obs;
 
   @override
-  Future<List<ProductModel>> fetchItems() async {
-    return await _productRepository.getAllProducts();
+  void onInit() {
+    super.onInit();
+    fetchProducts();
+  }
+
+  // Fetch all products
+  Future<void> fetchProducts({String? status}) async {
+    try {
+      isLoading.value = true;
+      hasError.value = false;
+      errorMessage.value = '';
+      
+      final products = status != null 
+          ? await _productRepository.getProductsByApprovalStatus(status)
+          : await _productRepository.getAllProducts();
+      
+      if (products.isEmpty) {
+        BaakasLoaders.warningSnackBar(
+          title: 'No Products',
+          message: 'No products found in the database.',
+        );
+      }
+      
+      allItems.assignAll(products);
+      filteredItems.assignAll(products);
+      
+      // Initialize selected rows
+      selectedRows.assignAll(List.generate(products.length, (index) => false));
+      
+    } catch (e) {
+      hasError.value = true;
+      errorMessage.value = e.toString();
+      BaakasLoaders.errorSnackBar(
+        title: 'Error Loading Products',
+        message: 'Failed to load products: ${e.toString()}',
+      );
+      // Initialize with empty lists to prevent null errors
+      allItems.clear();
+      filteredItems.clear();
+      selectedRows.clear();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // Filter products by status
+  void filterByApprovalStatus(String status) {
+    try {
+      if (status.isEmpty) {
+        fetchProducts();
+      } else {
+        fetchProducts(status: status);
+      }
+    } catch (e) {
+      BaakasLoaders.errorSnackBar(
+        title: 'Error Filtering Products',
+        message: 'Failed to filter products: ${e.toString()}',
+      );
+    }
+  }
+
+  // Search products
+  void searchQuery(String query) {
+    try {
+      if (query.isEmpty) {
+        filteredItems.assignAll(allItems);
+      } else {
+        filteredItems.assignAll(
+          allItems.where((product) =>
+            product.name.toLowerCase().contains(query.toLowerCase()) ||
+            product.category.toLowerCase().contains(query.toLowerCase()) ||
+            (product.seller?.name ?? '').toLowerCase().contains(query.toLowerCase()),
+          ).toList(),
+        );
+      }
+      // Update selected rows for filtered items
+      selectedRows.assignAll(List.generate(filteredItems.length, (index) => false));
+    } catch (e) {
+      BaakasLoaders.errorSnackBar(
+        title: 'Error Searching Products',
+        message: 'Failed to search products: ${e.toString()}',
+      );
+    }
+  }
+
+  // Update product status
+  Future<void> updateProductStatus(String productId, String status, {String? reason}) async {
+    try {
+      isLoading.value = true;
+      await _productRepository.updateProductStatus(productId, status, reason: reason);
+      await fetchProducts(); // Refresh the list
+      BaakasLoaders.successSnackBar(
+        title: 'Success',
+        message: 'Product status updated successfully',
+      );
+    } catch (e) {
+      BaakasLoaders.errorSnackBar(title: 'Error', message: e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // Delete product
+  Future<void> deleteProduct(String productId) async {
+    try {
+      isLoading.value = true;
+      await _productRepository.deleteProduct(productId);
+      await fetchProducts(); // Refresh the list
+      BaakasLoaders.successSnackBar(
+        title: 'Success',
+        message: 'Product deleted successfully',
+      );
+    } catch (e) {
+      BaakasLoaders.errorSnackBar(title: 'Error', message: e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // Sort by name
+  void sortByName(int columnIndex, bool ascending) {
+    try {
+      sortColumnIndex.value = columnIndex;
+      sortAscending.value = ascending;
+      filteredItems.sort((a, b) => ascending
+          ? a.name.compareTo(b.name)
+          : b.name.compareTo(a.name));
+    } catch (e) {
+      BaakasLoaders.errorSnackBar(
+        title: 'Error Sorting Products',
+        message: 'Failed to sort products: ${e.toString()}',
+      );
+    }
+  }
+
+  // Sort by price
+  void sortByPrice(int columnIndex, bool ascending) {
+    try {
+      sortColumnIndex.value = columnIndex;
+      sortAscending.value = ascending;
+      filteredItems.sort((a, b) => ascending
+          ? a.price.compareTo(b.price)
+          : b.price.compareTo(a.price));
+    } catch (e) {
+      BaakasLoaders.errorSnackBar(
+        title: 'Error Sorting Products',
+        message: 'Failed to sort products: ${e.toString()}',
+      );
+    }
+  }
+
+  // Sort by approval status
+  void sortByApprovalStatus(int columnIndex, bool ascending) {
+    try {
+      sortColumnIndex.value = columnIndex;
+      sortAscending.value = ascending;
+      filteredItems.sort((a, b) => ascending
+          ? a.status.compareTo(b.status)
+          : b.status.compareTo(a.status));
+    } catch (e) {
+      BaakasLoaders.errorSnackBar(
+        title: 'Error Sorting Products',
+        message: 'Failed to sort products: ${e.toString()}',
+      );
+    }
   }
 
   @override
   bool containsSearchQuery(ProductModel item, String query) {
-    return item.title.toLowerCase().contains(query.toLowerCase()) ||
-        item.brand!.name.toLowerCase().contains(query.toLowerCase()) ||
-        item.stock.toString().contains(query) ||
+    return item.name.toLowerCase().contains(query.toLowerCase()) ||
+        item.category.toLowerCase().contains(query.toLowerCase()) ||
         item.price.toString().contains(query);
   }
 
   @override
   Future<void> deleteItem(ProductModel item) async {
-    // You might want to add a check if any orders of this products exists, delete them first
-    final orderController = Get.put(OrderController());
+    try {
+      final orderController = Get.put(OrderController());
 
-    // If no orders fetched, Fetch them first
-    if (orderController.allItems.isEmpty) {
-      await orderController.fetchItems();
+      if (orderController.allItems.isEmpty) {
+        await orderController.fetchItems();
+      }
+
+      final orderExists = orderController.allItems.any((element) =>
+          element.items.any((element) => element.productId == item.id));
+
+      if (orderExists) {
+        BaakasLoaders.warningSnackBar(
+            title: 'Dependents Exist',
+            message:
+                'In order to Delete this Product, Delete dependent Orders first.');
+        return;
+      }
+      await _productRepository.deleteProduct(item.id);
+    } catch (e) {
+      BaakasLoaders.errorSnackBar(
+        title: 'Error Deleting Product',
+        message: 'Failed to delete product: ${e.toString()}',
+      );
     }
-
-    // Check if any order exist containing this productId
-    final orderExists = orderController.allItems.any((element) =>
-        element.items.any((element) => element.productId == item.id));
-
-    if (orderExists) {
-      BaakasLoaders.warningSnackBar(
-          title: 'Dependents Exist',
-          message:
-              'In order to Delete this Product, Delete dependent Orders first.');
-      return;
-    }
-    await _productRepository.deleteProduct(item);
   }
 
-  /// Sorting related code
-  void sortByName(int sortColumnIndex, bool ascending) {
-    sortByProperty(sortColumnIndex, ascending,
-        (ProductModel product) => product.title.toLowerCase());
-  }
-
-  /// Sorting related code
-  void sortByPrice(int sortColumnIndex, bool ascending) {
-    sortByProperty(
-        sortColumnIndex, ascending, (ProductModel product) => product.price);
-  }
-
-  /// Sorting related code
-  void sortByStock(int sortColumnIndex, bool ascending) {
-    sortByProperty(
-        sortColumnIndex, ascending, (ProductModel product) => product.stock);
-  }
-
-  /// Sorting related code
-  void sortBySoldItems(int sortColumnIndex, bool ascending) {
-    sortByProperty(sortColumnIndex, ascending,
-        (ProductModel product) => product.soldQuantity);
-  }
-
-  /// Get the product price or price range for variations.
   String getProductPrice(ProductModel product) {
-    double smallestPrice = double.infinity;
-    double largestPrice = 0.0;
-
-    // If no variations exist, return the simple price or sale price
-    if (product.productType == ProductType.single.toString() ||
-        product.productVariations!.isEmpty) {
-      return (product.salePrice > 0.0 ? product.salePrice : product.price)
-          .toString();
-    } else {
-      // Calculate the smallest and largest prices among variations
-      for (var variation in product.productVariations!) {
-        // Determine the price to consider (sale price if available, otherwise regular price)
-        double priceToConsider =
-            variation.salePrice > 0.0 ? variation.salePrice : variation.price;
-
-        // Update smallest and largest prices
-        if (priceToConsider < smallestPrice) {
-          smallestPrice = priceToConsider;
-        }
-
-        if (priceToConsider > largestPrice) {
-          largestPrice = priceToConsider;
-        }
-      }
-
-      // If smallest and largest prices are the same, return a single price
-      if (smallestPrice.isEqual(largestPrice)) {
-        return largestPrice.toString();
-      } else {
-        // Otherwise, return a price range
-        return '$smallestPrice - Rs $largestPrice';
-      }
-    }
+    return product.price.toString();
   }
 
-  /// -- Calculate Discount Percentage
   String? calculateSalePercentage(double originalPrice, double? salePrice) {
     if (salePrice == null || salePrice <= 0.0) return null;
     if (originalPrice <= 0) return null;
@@ -119,30 +247,29 @@ class ProductController extends BaakasBaseController<ProductModel> {
     return percentage.toStringAsFixed(0);
   }
 
-  /// -- Calculate Product Stock
   String getProductStockTotal(ProductModel product) {
-    return product.productType == ProductType.single.toString()
-        ? product.stock.toString()
-        : product.productVariations!
-            .fold<int>(
-                0, (previousValue, element) => previousValue + element.stock)
-            .toString();
+    return product.stockQuantity.toString();
   }
 
-  /// -- Calculate Product Sold Quantity
   String getProductSoldQuantity(ProductModel product) {
-    return product.productType == ProductType.single.toString()
-        ? product.soldQuantity.toString()
-        : product.productVariations!
-            .fold<int>(
-                0,
-                (previousValue, element) =>
-                    previousValue + element.soldQuantity)
-            .toString();
+    return '0'; // No soldQuantity field in simplified model
   }
 
-  /// -- Check Product Stock Status
   String getProductStockStatus(ProductModel product) {
-    return product.stock > 0 ? 'In Stock' : 'Out of Stock';
+    if (product.stockQuantity <= 0) return 'Out of Stock';
+    if (product.stockQuantity < 10) return 'Low Stock';
+    return 'In Stock';
+  }
+
+  @override
+  Future<List<ProductModel>> fetchItems() async {
+    await fetchProducts();
+    return allItems;
+  }
+
+  @override
+  void onClose() {
+    searchTextController.dispose();
+    super.onClose();
   }
 }

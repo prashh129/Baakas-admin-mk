@@ -36,6 +36,8 @@ class CategoryRows extends DataTableSource {
                 imageType: ImageType.network,
                 borderRadius: BaakasSizes.borderRadiusMd,
                 backgroundColor: BaakasColors.primaryBackground,
+                imageUrl: category.image,
+                isNetworkImage: true,
               ),
               const SizedBox(width: BaakasSizes.spaceBtwItems),
               Expanded(

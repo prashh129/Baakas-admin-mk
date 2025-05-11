@@ -52,6 +52,9 @@ class ProductThumbnailImage extends StatelessWidget {
                                         null
                                     ? ImageType.asset
                                     : ImageType.network,
+                            imageUrl: controller.selectedThumbnailImageUrl.value ??
+                                BaakasImages.defaultSingleImageIcon,
+                            isNetworkImage: controller.selectedThumbnailImageUrl.value != null,
                           ),
                         ),
                       ),

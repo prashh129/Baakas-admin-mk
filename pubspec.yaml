@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
 
   # Utility Packages
   logger: ^2.5.0

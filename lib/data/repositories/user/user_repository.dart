@@ -9,6 +9,7 @@ import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/format_exceptions.dart';
 import '../../../utils/exceptions/platform_exceptions.dart';
 import '../authentication/authentication_repository.dart';
+import '../../../utils/exceptions/firebase_exceptions.dart';
 
 /// Repository class for user-related operations.
 class UserRepository extends GetxController {
@@ -55,23 +56,24 @@ class UserRepository extends GetxController {
   }
 
   /// Function to fetch user details based on user ID.
-  Future<UserModel> fetchUserDetails(String id) async {
+  Future<UserModel> fetchUserDetails(String userId) async {
     try {
-      final documentSnapshot = await _db.collection("Users").doc(id).get();
+      if (userId.isEmpty) return UserModel.empty();
+      
+      final documentSnapshot = await _db.collection("Users").doc(userId).get();
       if (documentSnapshot.exists) {
         return UserModel.fromSnapshot(documentSnapshot);
       } else {
         return UserModel.empty();
       }
-    } on FirebaseAuthException catch (e) {
-      throw BaakasFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw BaakasFirebaseException(e.code).message;
     } on FormatException catch (_) {
       throw const BaakasFormatException();
     } on PlatformException catch (e) {
       throw BaakasPlatformException(e.code).message;
     } catch (e) {
-      if (kDebugMode) print('Something Went Wrong: $e');
-      throw 'Something Went Wrong: $e';
+      throw 'Something went wrong. Please try again';
     }
   }
 

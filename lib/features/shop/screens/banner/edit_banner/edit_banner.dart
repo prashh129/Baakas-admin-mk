@@ -1,4 +1,5 @@
-import 'package:baakas_admin/features/shop/screens/banner/edit_banner/responsive_screens/edit_brand_tablet.dart';
+
+import 'package:baakas_admin/features/shop/screens/banner/edit_banner/responsive_screens/edit_banner_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

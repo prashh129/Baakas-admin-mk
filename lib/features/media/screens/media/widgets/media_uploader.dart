@@ -194,6 +194,8 @@ class MediaUploader extends StatelessWidget {
                                             element.localImageToDisplay,
                                         backgroundColor:
                                             BaakasColors.primaryBackground,
+                                        imageUrl: '',
+                                        isNetworkImage: false,
                                       ),
                                     )
                                     .toList(),

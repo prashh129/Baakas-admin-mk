@@ -50,6 +50,10 @@ class CreateBannerForm extends StatelessWidget {
                           controller.imageURL.value.isNotEmpty
                               ? ImageType.network
                               : ImageType.asset,
+                      imageUrl: controller.imageURL.value.isNotEmpty
+                          ? controller.imageURL.value
+                          : BaakasImages.defaultImage,
+                      isNetworkImage: controller.imageURL.value.isNotEmpty,
                     ),
                   ),
                 ),
@@ -84,7 +88,7 @@ class CreateBannerForm extends StatelessWidget {
                     (String? newValue) =>
                         controller.targetScreen.value = newValue!,
                 items:
-                    AppScreens.allAppScreenItems.map<DropdownMenuItem<String>>((
+                    BaakasRoutes.allAppScreenItems.map<DropdownMenuItem<String>>((
                       value,
                     ) {
                       return DropdownMenuItem<String>(

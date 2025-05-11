@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:universal_html/html.dart' as html;
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 /// Helper functions for cloud-related operations.
 class BaakasCloudHelperFunctions {
@@ -94,26 +97,116 @@ class BaakasCloudHelperFunctions {
   }
 
   /// Upload any Image using File
-  static Future<String> uploadImageFile(
-      {required html.File file,
-      required String path,
-      required String imageName}) async {
+  static Future<String> uploadImageFile({
+    required html.File file,
+    required String path,
+    required String imageName,
+  }) async {
     try {
-      final ref = FirebaseStorage.instance.ref(path).child(imageName);
-      await ref.putBlob(file);
+      // Validate file size
+      if (file.size == 0) {
+        throw 'File is empty';
+      }
 
-      final String downloadURL = await ref.getDownloadURL();
+      // Create a completer for handling the file reading
+      final completer = Completer<Uint8List>();
+      final reader = html.FileReader();
+
+      // Set up error handling for the FileReader
+      reader.onError.listen((error) {
+        if (!completer.isCompleted) {
+          completer.completeError('Failed to read file: ${error.toString()}');
+        }
+      });
+
+      // Set up the load end handler
+      reader.onLoadEnd.listen((event) {
+        if (!completer.isCompleted) {
+          try {
+            final result = reader.result as Uint8List;
+            if (result.isEmpty) {
+              completer.completeError('File data is empty');
+            } else {
+              completer.complete(result);
+            }
+          } catch (e) {
+            if (!completer.isCompleted) {
+              completer.completeError('Failed to process file: ${e.toString()}');
+            }
+          }
+        }
+      });
+
+      // Start reading the file
+      reader.readAsArrayBuffer(file);
+
+      // Wait for the file to be read
+      final Uint8List fileBytes = await completer.future;
+
+      // Get file extension and determine MIME type
+      final extension = imageName.split('.').last.toLowerCase();
+      String mimeType;
+
+      // Explicitly set MIME type based on file extension
+      switch (extension) {
+        case 'jpg':
+        case 'jpeg':
+          mimeType = 'image/jpeg';
+          break;
+        case 'png':
+          mimeType = 'image/png';
+          break;
+        case 'gif':
+          mimeType = 'image/gif';
+          break;
+        case 'webp':
+          mimeType = 'image/webp';
+          break;
+        case 'svg':
+          mimeType = 'image/svg+xml';
+          break;
+        default:
+          // If we can't determine the type, try to use the file's type
+          mimeType = file.type.isNotEmpty ? file.type.toLowerCase() : 'image/jpeg';
+      }
+
+      // Create storage reference
+      final ref = FirebaseStorage.instance.ref(path).child(imageName);
+
+      // Set metadata with content type and additional metadata
+      final metadata = SettableMetadata(
+        contentType: mimeType,
+        customMetadata: {
+          'originalName': imageName,
+          'uploadedAt': DateTime.now().toIso8601String(),
+          'fileExtension': extension,
+          'fileSize': file.size.toString(),
+        },
+      );
+
+      // Upload the file with explicit content type
+      final uploadTask = ref.putData(
+        fileBytes,
+        metadata,
+      );
+
+      // Wait for the upload to complete
+      await uploadTask;
+
+      // Verify the upload was successful
+      final metadataAfterUpload = await ref.getMetadata();
+      if (metadataAfterUpload.contentType != mimeType) {
+        throw 'MIME type mismatch after upload';
+      }
 
       // Return the download URL
-      return downloadURL;
+      return await ref.getDownloadURL();
     } on FirebaseException catch (e) {
-      throw e.message!;
-    } on SocketException catch (e) {
-      throw e.message;
+      throw 'Firebase Storage Error: ${e.message}';
     } on PlatformException catch (e) {
-      throw e.message!;
+      throw 'Platform Error: ${e.message}';
     } catch (e) {
-      throw e.toString();
+      throw 'Failed to upload image: ${e.toString()}';
     }
   }
 
@@ -122,10 +215,10 @@ class BaakasCloudHelperFunctions {
       Reference ref = FirebaseStorage.instance.refFromURL(downloadUrl);
       await ref.delete();
 
-      print('File deleted successfully.');
+      Get.log('File deleted successfully.');
     } on FirebaseException catch (e) {
       if (e.code == 'object-not-found') {
-        print('The file does not exist in Firebase Storage.');
+        Get.log('The file does not exist in Firebase Storage.');
       } else {
         throw e.message!;
       }

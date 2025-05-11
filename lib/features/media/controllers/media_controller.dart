@@ -35,14 +35,14 @@ class MediaController extends GetxController {
 
   late ListResult bannerImagesListResult;
   late ListResult productImagesListResult;
-  late ListResult brandImagesListResult;
+  late ListResult sellerImagesListResult;
   late ListResult categoryImagesListResult;
   late ListResult userImagesListResult;
 
   final RxList<ImageModel> allImages = <ImageModel>[].obs;
   final RxList<ImageModel> allBannerImages = <ImageModel>[].obs;
   final RxList<ImageModel> allProductImages = <ImageModel>[].obs;
-  final RxList<ImageModel> allBrandImages = <ImageModel>[].obs;
+  final RxList<ImageModel> allSellerImages = <ImageModel>[].obs;
   final RxList<ImageModel> allCategoryImages = <ImageModel>[].obs;
   final RxList<ImageModel> allUserImages = <ImageModel>[].obs;
 
@@ -59,9 +59,9 @@ class MediaController extends GetxController {
       if (selectedPath.value == MediaCategory.banners &&
           allBannerImages.isEmpty) {
         targetList = allBannerImages;
-      } else if (selectedPath.value == MediaCategory.brands &&
-          allBrandImages.isEmpty) {
-        targetList = allBrandImages;
+      } else if (selectedPath.value == MediaCategory.sellers &&
+          allSellerImages.isEmpty) {
+        targetList = allSellerImages;
       } else if (selectedPath.value == MediaCategory.categories &&
           allCategoryImages.isEmpty) {
         targetList = allCategoryImages;
@@ -96,8 +96,8 @@ class MediaController extends GetxController {
 
       if (selectedPath.value == MediaCategory.banners) {
         targetList = allBannerImages;
-      } else if (selectedPath.value == MediaCategory.brands) {
-        targetList = allBrandImages;
+      } else if (selectedPath.value == MediaCategory.sellers) {
+        targetList = allSellerImages;
       } else if (selectedPath.value == MediaCategory.categories) {
         targetList = allCategoryImages;
       } else if (selectedPath.value == MediaCategory.products) {
@@ -124,31 +124,37 @@ class MediaController extends GetxController {
   }
 
   // /// Select Local Images on Button Press
- Future<void> selectLocalImages() async {
-  final files = await dropzoneController.pickFiles(
-    multiple: true,
-    mime: ['image/jpeg', 'image/png'],
-  );
+  Future<void> selectLocalImages() async {
+    final files = await dropzoneController.pickFiles(
+      multiple: true,
+      mime: ['image/jpeg', 'image/png'],
+    );
 
-  if (files.isNotEmpty) {
-    for (var file in files) {
-      // Get the file data as bytes
-      final bytes = await dropzoneController.getFileData(file);
-      
-      // Create an html.File from the bytes
-      html.File htmlFile = html.File(bytes, file.name);
-
-      final image = ImageModel(
-        url: '',
-        file: htmlFile,
-        folder: '',
-        filename: file.name,
-        localImageToDisplay: Uint8List.fromList(bytes),
-      );
-      selectedImagesToUpload.add(image);
+    if (files.isNotEmpty) {
+      for (var file in files) {
+        try {
+          // Get the file data as bytes
+          final bytes = await dropzoneController.getFileData(file);
+          
+          // Create an html.File from the bytes with proper MIME type
+          final blob = html.Blob([bytes], file.type);
+          final htmlFile = html.File([blob], file.name, {'type': file.type});
+          
+          // Create the image model with proper file handling
+          final image = ImageModel(
+            url: '',
+            file: htmlFile,
+            folder: '',
+            filename: file.name,
+            localImageToDisplay: Uint8List.fromList(bytes),
+          );
+          selectedImagesToUpload.add(image);
+        } catch (e) {
+          Get.log('Error processing file ${file.name}: $e');
         }
+      }
+    }
   }
-}
 
   /// Upload Images Confirmation Popup
   void uploadImagesConfirmation() {
@@ -190,8 +196,8 @@ class MediaController extends GetxController {
          case MediaCategory.banners:
            targetList = allBannerImages;
            break;
-         case MediaCategory.brands:
-           targetList = allBrandImages;
+         case MediaCategory.sellers:
+           targetList = allSellerImages;
            break;
          case MediaCategory.categories:
            targetList = allCategoryImages;
@@ -278,8 +284,8 @@ class MediaController extends GetxController {
        case MediaCategory.banners:
          path = BaakasTexts.bannersStoragePath;
          break;
-       case MediaCategory.brands:
-         path = BaakasTexts.brandsStoragePath;
+       case MediaCategory.sellers:
+         path = BaakasTexts.sellersStoragePath;
          break;
        case MediaCategory.categories:
          path = BaakasTexts.categoriesStoragePath;
@@ -344,8 +350,8 @@ class MediaController extends GetxController {
          case MediaCategory.banners:
            targetList = allBannerImages;
            break;
-         case MediaCategory.brands:
-           targetList = allBrandImages;
+         case MediaCategory.sellers:
+           targetList = allSellerImages;
            break;
          case MediaCategory.categories:
            targetList = allCategoryImages;

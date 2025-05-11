@@ -86,17 +86,13 @@ class CreateCategoryForm extends StatelessWidget {
             // Image Uploader & Featured Checkbox
             Obx(
               () => BaakasImageUploader(
-                width: 80,
-                height: 80,
-                image:
-                    createController.imageURL.value.isNotEmpty
-                        ? createController.imageURL.value
-                        : BaakasImages.defaultImage,
-                imageType:
-                    createController.imageURL.value.isNotEmpty
-                        ? ImageType.network
-                        : ImageType.asset,
-                onIconButtonPressed: () => createController.pickImage(),
+                image: createController.imageURL.value.isNotEmpty
+                    ? createController.imageURL.value
+                    : BaakasImages.defaultImage,
+                imageType: createController.imageURL.value.isNotEmpty
+                    ? ImageType.network
+                    : ImageType.asset,
+                onImageSelected: (image) => createController.pickImage(),
               ),
             ),
             const SizedBox(height: BaakasSizes.spaceBtwInputFields),

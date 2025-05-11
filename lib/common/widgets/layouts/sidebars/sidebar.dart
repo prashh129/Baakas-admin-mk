@@ -112,9 +112,9 @@ class BaakasSidebar extends StatelessWidget {
                       itemName: 'Categories',
                     ),
                     const BaakasMenuItem(
-                      route: BaakasRoutes.brands,
+                      route: BaakasRoutes.sellers,
                       icon: Iconsax.dcube,
-                      itemName: 'Brands',
+                      itemName: 'Sellers',
                     ),
                     const BaakasMenuItem(
                       route: BaakasRoutes.customers,
@@ -148,6 +148,11 @@ class BaakasSidebar extends StatelessWidget {
                       route: BaakasRoutes.settings,
                       icon: Iconsax.setting_2,
                       itemName: 'Settings',
+                    ),
+                    const BaakasMenuItem(
+                      route: BaakasRoutes.kycReview,
+                      icon: Iconsax.document_text,
+                      itemName: 'KYC Review',
                     ),
                     const BaakasMenuItem(
                       route: 'logout',

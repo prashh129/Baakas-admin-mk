@@ -107,16 +107,9 @@ class ProductAdditionalImages extends StatelessWidget {
       itemBuilder: (context, index) {
         final image = additionalProductImagesURLs[index];
         return BaakasImageUploader(
-          top: 0,
-          right: 0,
-          width: 80,
-          height: 80,
-          left: null,
-          bottom: null,
           image: image,
-          icon: Iconsax.trash,
           imageType: ImageType.network,
-          onIconButtonPressed: () => onTapToRemoveImage!(index),
+          onImageSelected: (image) => onTapToRemoveImage!(index),
         );
       },
     );

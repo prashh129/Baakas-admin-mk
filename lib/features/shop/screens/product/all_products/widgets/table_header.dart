@@ -1,10 +1,10 @@
-import 'package:baakas_admin/features/shop/controllers/product/product_controller.dart';
 import 'package:baakas_admin/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../../../utils/device/device_utility.dart';
+import '../../../../controllers/product/product_controller.dart';
 
 class ProductTableHeader extends StatelessWidget {
   const ProductTableHeader({super.key});
@@ -19,7 +19,7 @@ class ProductTableHeader extends StatelessWidget {
           child: Row(
             children: [
               SizedBox(
-                width: 140,
+                width: 200,
                 child: ElevatedButton(
                   onPressed: () => Get.toNamed(BaakasRoutes.createProduct),
                   child: const Text('Add Product'),
@@ -34,7 +34,7 @@ class ProductTableHeader extends StatelessWidget {
             controller: controller.searchTextController,
             onChanged: (query) => controller.searchQuery(query),
             decoration: const InputDecoration(
-              hintText: 'Search',
+              hintText: 'Search Products',
               prefixIcon: Icon(Iconsax.search_normal),
             ),
           ),

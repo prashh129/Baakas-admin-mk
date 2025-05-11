@@ -50,6 +50,8 @@ class OrderItems extends StatelessWidget {
                               ? ImageType.network
                               : ImageType.asset,
                           image: item.image ?? BaakasImages.defaultImage,
+                          imageUrl: item.image ?? BaakasImages.defaultImage,
+                          isNetworkImage: item.image != null,
                         ),
                         const SizedBox(width: BaakasSizes.spaceBtwItems),
                         Expanded(
